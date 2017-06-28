@@ -1,1 +1,2 @@
 # ELCVFlowLayout
+实现了UICollectionView横向滑动和UICollectionViewCell的横向排列 只需要将ELCVFlowLayout文件拖入项目，将UICollectionViewFlowLayout替换为ELCVFlowLayout即可 我的博客地址http://www.jianshu.com/u/e50ecd81ad38
