@@ -17,6 +17,7 @@
 
 @implementation ELCVFlowLayout
 
+
 - (instancetype)init
 {
     self = [super init];
@@ -26,6 +27,7 @@
     }
     return self;
 }
+
 
 - (void)prepareLayout
 {
@@ -71,6 +73,15 @@
         return;
     }
     
+    /*修改by lixinkai 2017.6.30
+    下面这两个方法 itemW、itemH
+     解决了同一个UICollectionView使用不同UICollectionViewCell的问题
+     */
+    //attributes 的宽度
+    CGFloat itemW = attributes.frame.size.width;
+    //attributes 的高度
+    CGFloat itemH = attributes.frame.size.height;
+    
     //collectionView 的宽度
     CGFloat width = self.collectionView.frame.size.width;
     //collectionView 的高度
@@ -90,12 +101,12 @@
     CGFloat offset = section * stride;
     
     //计算x方向item个数
-    NSInteger xCount = (width / self.itemSize.width);
+    NSInteger xCount = (width / itemW);
     //计算y方向item个数
-    NSInteger yCount = (height / self.itemSize.height);
+    NSInteger yCount = (height / itemH);
     //计算一页总个数
     NSInteger allCount = (xCount * yCount);
-    //获取每个section的页数
+    //获取每个section的页数，从0开始
     NSInteger page = itemIndex / allCount;
     
     //余数，用来计算item的x的偏移量
@@ -106,9 +117,9 @@
 
 
     //x方向每个item的偏移量
-    CGFloat xCellOffset = remain * self.itemSize.width;
+    CGFloat xCellOffset = remain * itemW;
     //y方向每个item的偏移量
-    CGFloat yCellOffset = merchant * self.itemSize.height;
+    CGFloat yCellOffset = merchant * itemH;
     
     //获取每个section中item占了几页
     NSInteger pageRe = (itemCount % allCount == 0)? (itemCount / allCount) : (itemCount / allCount) + 1;
@@ -131,13 +142,14 @@
         yCellOffset += offset;
     }
    
-    attributes.frame = CGRectMake(xCellOffset, yCellOffset, self.itemSize.width, self.itemSize.height);
+    attributes.frame = CGRectMake(xCellOffset, yCellOffset, itemW, itemH);
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    UICollectionViewLayoutAttributes *attr = [super layoutAttributesForItemAtIndexPath:indexPath].copy;
+//    UICollectionViewLayoutAttributes *attr = [UICollectionViewLayoutAttributes  layoutAttributesForCellWithIndexPath:indexPath];
+   UICollectionViewLayoutAttributes *attr = [super layoutAttributesForItemAtIndexPath:indexPath].copy;
     
     [self applyLayoutAttributes:attr];
     return attr;
