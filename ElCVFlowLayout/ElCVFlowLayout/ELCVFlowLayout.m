@@ -23,7 +23,6 @@
     self = [super init];
     if (self) {
         self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _sectionDic = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -33,6 +32,7 @@
 {
     [super prepareLayout];
     
+    _sectionDic = [NSMutableDictionary dictionary];
     self.allAttributes = [NSMutableArray array];
     //获取section的数量
     NSUInteger section = [self.collectionView numberOfSections];
